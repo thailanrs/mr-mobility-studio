@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#080c14">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="MR Mobility">
+  <meta name="description" content="MR Mobility Studio - Gentle Stretching & Daily Spinal Decompression Protocol by MR Solutions">
+  
+  <title>MR Mobility Studio — Gentle Mobility & Spinal Freedom</title>
+  
+  <!-- Web App Manifest -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+  <link rel="apple-touch-icon" href="icons/icon.svg">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Confetti Celebration Canvas -->
+  <canvas id="confettiCanvas"></canvas>
+
+  <!-- Notification Toast -->
+  <div id="appToast" class="toast-msg">
+    <span>✨</span>
+    <span>Ready to mobilize</span>
+  </div>
+
+  <!-- =========================================================================
+       TOP BRAND HEADER
+       ========================================================================= -->
+  <header class="app-header">
+    <div class="app-container header-content">
+      <div class="brand-wrapper">
+        <div class="brand-logo-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2a4 4 0 0 1 4 4c0 1.5-.8 2.8-2 3.5v2.5a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-1"></path>
+            <circle cx="12" cy="18" r="3"></circle>
+            <path d="M6 12h12"></path>
+          </svg>
+        </div>
+        <div class="brand-meta">
+          <h1>MR Mobility Studio <span class="brand-tier-tag">White Tier</span></h1>
+          <div class="brand-sub">MR Solutions • Daily Spinal Freedom</div>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <!-- Audio chime toggle -->
+        <button id="btnSoundToggle" class="header-icon-btn active" title="Toggle Sound Chimes">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 5L6 9H2v6h4l5 4V5z"></path>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+          </svg>
+        </button>
+        <!-- Welcome / Help Info modal trigger -->
+        <button id="btnHelpModal" class="header-icon-btn" title="How to Use & Guide">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="app-container" style="padding-top: 14px;">
+
+    <!-- QUICK STATUS STRIP -->
+    <div class="status-strip">
+      <div class="status-item">
+        <span class="status-indicator"></span>
+        <div>
+          <div class="status-label">Active Protocol</div>
+          <div class="status-value" id="statusStreakVal">0 / 21 Days</div>
+        </div>
+      </div>
+      <div class="quick-progress-bar-wrap" title="21-Day Habit Progress">
+        <div class="quick-progress-fill" id="quickProgressFill"></div>
+      </div>
+      <button class="badge-btn" onclick="MRMobility.switchTab('tracker')">View Tracker →</button>
+    </div>
+
+    <!-- DESKTOP TOP NAVIGATION TABS -->
+    <nav class="desktop-nav">
+      <div class="desktop-nav-inner">
+        <button class="nav-tab-btn active" data-tab="welcome">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+          Quick Start
+        </button>
+        <button class="nav-tab-btn" data-tab="daily">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          Daily 10-Min Routine
+        </button>
+        <button class="nav-tab-btn" data-tab="chair">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"></rect><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+          Gentle Chair
+        </button>
+        <button class="nav-tab-btn" data-tab="spine">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+          Spine Decompression
+        </button>
+        <button class="nav-tab-btn" data-tab="tracker">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+          21-Day Tracker
+        </button>
+        <button class="nav-tab-btn bonus" data-tab="bonus">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+          Surprise Bonus 🎁
+        </button>
+        <button class="nav-tab-btn locked" data-tab="upsell">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          VIP Upgrades 🔒
+        </button>
+      </div>
+    </nav>
+
+    <!-- =========================================================================
+         TAB 1: WELCOME & QUICK START GUIDE
+         ========================================================================= -->
+    <section id="tab-welcome" class="tab-content active">
+      <!-- Welcome Hero Banner -->
+      <div class="welcome-hero">
+        <div class="hero-pill">✓ White Tier Access Active</div>
+        <h2>Welcome to your daily movement sanctuary.</h2>
+        <p>
+          You are now inside the official <strong>MR Mobility Studio</strong>. No messy PDFs, no forgotten Drive links. Everything you need to eliminate morning stiffness, restore lower back fluidity, and build supple joints is built right into this interactive mobile app.
+        </p>
+
+        <div class="hero-stats-row">
+          <div class="hero-stat-card">
+            <span class="val">10 Min</span>
+            <span class="lbl">Daily Commitment</span>
+          </div>
+          <div class="hero-stat-card">
+            <span class="val">0 Gym Tools</span>
+            <span class="lbl">Living Room / Mat</span>
+          </div>
+          <div class="hero-stat-card">
+            <span class="val">21 Days</span>
+            <span class="lbl">Habit Neuro-Rewiring</span>
+          </div>
+        </div>
+
+        <button class="cta-upgrade-btn" style="background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%); color:#080c14; box-shadow:0 0 20px rgba(16, 185, 129, 0.35);" onclick="MRMobility.switchTab('daily')">
+          Launch Today's 10-Min Routine →
+        </button>
+      </div>
+
+      <!-- Welcome Audio/Video Player Component -->
+      <div class="media-player-box">
+        <div class="player-header">
+          <div class="player-title-group">
+            <div class="player-avatar">MR</div>
+            <div>
+              <div class="player-title">Welcome & Method Orientation</div>
+              <div class="player-subtitle">Coach Mark • MR Solutions Head of Protocol (3:45)</div>
+            </div>
+          </div>
+          <span class="card-badge teal">Guided Audio</span>
+        </div>
+
+        <!-- Waveform display -->
+        <div class="waveform-display" id="playerWaveform">
+          <!-- Filled dynamically by JS -->
+        </div>
+
+        <div class="player-controls-row">
+          <div class="player-main-btns">
+            <button id="btnPlayerPlay" class="btn-play-pause" title="Play Orientation">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                <path d="M8 5v14l11-7z"></path>
+              </svg>
+            </button>
+            <div class="player-time-display">
+              <span id="playerCurrentTime">0:00</span> / <span>3:45</span>
+            </div>
+          </div>
+
+          <div class="player-extra-btns">
+            <button id="btnToggleTranscript" class="badge-btn">Transcript</button>
+            <button class="badge-btn" onclick="MRMobility.toggleTimer()">Quick Start</button>
+          </div>
+        </div>
+
+        <!-- Collapsible Transcript -->
+        <div id="transcriptDrawer" class="transcript-drawer">
+          <p><strong>Coach Mark:</strong> "Welcome to the MR Mobility Studio! If you are here, chances are you wake up feeling like your lower back has turned to concrete, or you spend 8 hours locked into an office chair feeling your hips lock up.</p>
+          <p style="margin-top: 8px;">Here is the core truth: <em>Mobility is not about aggressive stretching or forcing yourself into painful contortions.</em> It is a neurological conversation with your nervous system. By performing gentle, undulating movements for just 10 minutes each morning, we send safety signals to your muscle spindles. Within 7 days, stiffness dissipates. Within 21 days, effortless everyday posture becomes your baseline."</p>
+        </div>
+      </div>
+
+      <!-- The 3 Golden Rules of Gentle Mobility -->
+      <div class="section-headline">
+        <h3>The 3 Golden Rules of Gentle Mobility</h3>
+        <p>Follow these 3 rules to protect your joints and maximize results.</p>
+      </div>
+
+      <div class="cards-grid">
+        <div class="content-card">
+          <div class="card-top">
+            <span class="card-badge teal">Rule #1</span>
+            <span class="card-meta">Safety First</span>
+          </div>
+          <h4 class="card-title">Never Push Into Sharp Pain (Rule of 3/10)</h4>
+          <div class="card-body">
+            Gentle stretching works by coaxing the nervous system, not forcing mechanical tissue. On a scale of 1 to 10, keep your sensation between <strong>2 and 4</strong> (gentle warmth and tension). If you feel sharp or pinching pain, back off immediately.
+          </div>
+        </div>
+
+        <div class="content-card">
+          <div class="card-top">
+            <span class="card-badge teal">Rule #2</span>
+            <span class="card-meta">Vagus Reset</span>
+          </div>
+          <h4 class="card-title">Synchronize With Diaphragmatic Breath</h4>
+          <div class="card-body">
+            Breathe in through your nose for <strong>4 seconds</strong> into the lower abdomen, then breathe out slowly through pursed lips for <strong>6 seconds</strong>. Longer exhales trigger the parasympathetic nervous system, instantly releasing muscular guarding.
+          </div>
+        </div>
+
+        <div class="content-card">
+          <div class="card-top">
+            <span class="card-badge teal">Rule #3</span>
+            <span class="card-meta">Compounding</span>
+          </div>
+          <h4 class="card-title">10 Minutes Daily Beats 1 Hour on Sunday</h4>
+          <div class="card-body">
+            Joints require daily synovial fluid circulation. A single 10-minute routine upon waking resets the postural compression from sleeping and prepares your spine for the day ahead. Make it a daily ritual!
+          </div>
+        </div>
+
+        <div class="content-card">
+          <div class="card-top">
+            <span class="card-badge gold">Fast Tip</span>
+            <span class="card-meta">Hydration</span>
+          </div>
+          <h4 class="card-title">The Hydration Window</h4>
+          <div class="card-body">
+            Drink 1 large glass (300-500ml) of room temperature water <em>before</em> starting your routine. Your intervertebral discs dehydrate overnight; morning hydration makes spinal decompression 40% more effective.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         TAB 2: DAILY 10-MIN MOBILITY ROUTINE (WITH INTERACTIVE TIMER)
+         ========================================================================= -->
+    <section id="tab-daily" class="tab-content">
+      
+      <!-- Interactive Routine Timer Box -->
+      <div class="timer-container">
+        
+        <!-- Routine Selector Pills -->
+        <div class="routine-switcher">
+          <button class="routine-pill active" data-routine="daily">Daily 10-Min Flow</button>
+          <button class="routine-pill" data-routine="chair">Gentle Chair (6m)</button>
+          <button class="routine-pill" data-routine="spine">Spine Decompress (7m)</button>
+          <button class="routine-pill" data-routine="bonus">Bonus Knee/Hip (8m)</button>
+        </div>
+
+        <!-- SVG Circular Dial -->
+        <div class="timer-circle-wrap">
+          <svg class="timer-svg" viewBox="0 0 220 220">
+            <defs>
+              <linearGradient id="timerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#10b981" />
+                <stop offset="50%" stop-color="#06b6d4" />
+                <stop offset="100%" stop-color="#6366f1" />
+              </linearGradient>
+            </defs>
+            <circle class="timer-bg-circle" cx="110" cy="110" r="95"></circle>
+            <circle id="timerProgressCircle" class="timer-progress-circle" cx="110" cy="110" r="95"></circle>
+          </svg>
+          
+          <div class="timer-inner-content">
+            <div id="timerTimeDisplay" class="timer-time-text">1:00</div>
+            <div id="timerStepLabel" class="timer-step-label">Movement 1 of 10</div>
+          </div>
+        </div>
+
+        <!-- Current Exercise Card Display -->
+        <div class="current-move-card">
+          <div class="move-header">
+            <div id="timerMoveTitle" class="move-title">Cat-Cow Spinal Waves</div>
+            <div id="timerMoveTarget" class="move-target">Full Spine & Pelvis</div>
+          </div>
+          <div id="timerMoveDesc" class="move-desc">
+            Hands beneath shoulders, knees under hips. Inhale to arch spine and lift chest; exhale to round upper back toward the ceiling like a stretching cat.
+          </div>
+
+          <div class="breathing-bar-container">
+            <div style="display: flex; align-items:center; gap: 8px;">
+              <span class="breath-animation"></span>
+              <span id="timerMoveBreath">Inhale 4s (Cow) • Exhale 5s (Cat)</span>
+            </div>
+            <span style="font-size: 0.72rem; color: var(--text-muted);">Diaphragmatic Pace</span>
+          </div>
+
+          <div class="tip-box" id="timerMoveMod" style="margin-top: 10px;">
+            Easier: Perform seated on chair. Deeper: Add lateral head-to-hip wagging at peak flexion.
+          </div>
+        </div>
+
+        <!-- Timer Controls Row -->
+        <div class="timer-controls">
+          <button id="btnTimerPrev" class="btn-ctrl" title="Previous Movement">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polygon points="19 20 9 12 19 4 19 20"></polygon>
+              <line x1="5" y1="19" x2="5" y2="5"></line>
+            </svg>
+          </button>
+
+          <button id="btnTimerPlayPause" class="btn-ctrl-primary" title="Start / Pause">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8 5v14l11-7z"></path>
+            </svg>
+          </button>
+
+          <button id="btnTimerNext" class="btn-ctrl" title="Next Movement">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polygon points="5 4 15 12 5 20 5 4"></polygon>
+              <line x1="19" y1="5" x2="19" y2="19"></line>
+            </svg>
+          </button>
+
+          <button id="btnTimerReset" class="btn-ctrl" title="Reset Current Interval">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M2.5 2v6h6M21.5 22v-6h-6"></path>
+              <path d="M22 11.5A10 10 0 0 0 3.2 7.2L2.5 8M2 12.5a10 10 0 0 0 18.8 4.3l.7-.8"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Complete Movement Reference List -->
+      <div class="section-headline">
+        <h3>Complete 10-Minute Sequence Breakdown</h3>
+        <p>Review the exact form and benefits of all 10 morning mobilizations.</p>
+      </div>
+
+      <div class="cards-grid">
+        <!-- 1 -->
+        <div class="content-card">
+          <div class="card-top">
+            <span class="card-badge teal">Step 01 • 60s</span>
+            <span class="card-meta">Spine & Discs</span>
+          </div>
+          <h4 class="card-title">1. Cat-Cow Spinal Waves</h4>
+          <p class="card-body">Gently articulates every individual segment from the coccyx to the cervical spine. Restores synovial fluid across all 24 vertebrae.</p>
+          <ul class="steps-list">
+            <li>Inhale 4s arching back, lifting chest and tailbone gently.</li>
+            <li>Exhale 5s tucking chin and rounding mid-back high.</li>
+          </ul>
+        </div>
+
+        <!-- 2 -->
+        <div class="content-card">
+          <div class="card-top">
+            <span class="card-badge teal">Step 02 • 60s</span>
+            <span class="card-meta">Thoracic & Hips</span>
+          </div>
+          <h4 class="card-title">2. World's Greatest Stretch</h4>
+          <p class="card-body">A compound dynamic movement that opens tight hip flexors, unglues the hamstring origin, and frees rotated rib cages.</p>
+          <ul class="steps-list">
+            <li>Step left foot outside left hand in low lunge.</li>
+            <li>Sweep left arm up toward ceiling, rotating from the upper ribs.</li>
+          </ul>
+        </div>
+
+        <!-- 3 -->
+        <div class="content-card">
+          <div class="card-top">
+            <span class="card-badge teal">Step 03 • 60s</span>
+            <span class="card-meta">Pelvic Capsules</span>
+          </div>
+          <h4 class="card-title">3. 90/90 Gentle Hip Glides</h4>
+          <p class="card-body">Simultaneously addresses internal rotation on one side and external rotation on the other to relieve sacroiliac torque.</p>
+          <ul class="steps-list">
+            <li>Hinge forward with tall spine over front shin.</li>
+            <li>Slowly transition knees across like windshield wipers.</li>
+          </ul>
+        </div>
+
+        <!-- 4 -->
+        <div class="content-card">
+          <div class="card-top">
+            <span class="card-badge teal">Step 04 • 60s</span>
+            <span class="card-meta">Posterior Chain</span>
+          </div>
+          <h4 class="card-title">4. Downward Dog to Cobra Flow</h4>
+          <p class="card-body">Transitions between posterior chain decompression and anterior fascial lengthening without overloading lumbar joints.</p>
+          <ul class="steps-list">
+            <li>Pedal feet slowly in Downward Dog to stretch calves and plantar fascia.</li>
+            <li>Glide hips forward smoothly into gentle Cobra with relaxed shoulders.</li>
+          </ul>
+        </div>
+
+        <!-- 5 -->
+        <div class="content-card">
+          <div class="card-top">
+            <span class="card-badge teal">Step 05 • 60s</span>
+            <span class="card-meta">Ankles & Groin</span>
+          </div>
+          <h4 class="card-title">5. Deep Squat Hold & Sky Reach</h4>
+          <p class="card-body">Reclaims the primal resting human posture. Restores ankle dorsiflexion and expands the thoracic ribcage.</p>
+          <ul class="steps-list">
+            <li>Elbows press gently outward against inner knees.</li>
+            <li>Alternate reaching one arm upward while breathing into ribs.</li>
+          </ul>
+        </div>
+
+        <!-- 6 -->
+        <div class="content-card">
+          <div class="card-top">
+            <span class="card-badge teal">Step 06 • 60s</span>
+            <span class="card-meta">Mid-Back Decompression</span>
+          </div>
+          <h4 class="card-title">6. Thread the Needle</h4>
+          <p class="card-body">Specifically unhooks the rhomboids, middle trapezius, and posterior rib articulations where stress knots accumulate.</p>
+          <ul class="steps-list">
+            <li>Slide right arm under left armpit until temple rests on mat.</li>
+            <li>Sink deeply into the exhale for 30s per side.</li>
+          </ul>
+        </div>
+
+        <!-- 7 -->
+        <div class="content-card">
+          <div class="card-top">
+            <span class="card-badge teal">Step 07 • 60s</span>
+            <span class="card-meta">Psoas & Iliacus</span>
+          </div>
+          <h4 class="card-title">7. Kneeling Psoas & Overhead Reach</h4>
+          <p class="card-body">Tucks the pelvis to directly target the deep psoas muscle that attaches your thigh bone to your lumbar vertebrae.</p>
+          <ul class="steps-list">
+            <li>Tuck tailbone under before leaning forward even an inch.</li>
+            <li>Reach arm overhead and lean 5 degrees laterally.</li>
+          </ul>
+        </div>
+
+        <!-- 8 -->
+        <div class="content-card">
+          <div class="card-top">
+            <span class="card-badge teal">Step 08 • 60s</span>
+            <span class="card-meta">Lumbar & Anterior Chain</span>
+          </div>
+          <h4 class="card-title">8. Prone Scorpion Tail Extension</h4>
+          <p class="card-body">Activates glute firing while providing a gentle, rotating stretch across the anterior hip and chest.</p>
+          <ul class="steps-list">
+            <li>Arms in wide T-shape, face down on mat.</li>
+            <li>Bend right knee and swing right foot across body toward left hand.</li>
+          </ul>
+        </div>
+
+        <!-- 9 -->
+        <div class="content-card">
+          <div class="card-top">
+            <span class="card-badge teal">Step 09 • 60s</span>
+            <span class="card-meta">QL & Lateral Chain</span>
+          </div>
+          <h4 class="card-title">9. Standing Lateral Chain Elongation</h4>
+          <p class="card-body">Opens the tight quadratus lumborum (QL) muscle responsible for that stubborn "pinched" sensation in the lower back flanks.</p>
+          <ul class="steps-list">
+            <li>Cross legs at the ankles, reach tall arm overhead.</li>
+            <li>Breathe deeply into the stretched side body for 30s each side.</li>
+          </ul>
+        </div>
+
+        <!-- 10 -->
+        <div class="content-card">
+          <div class="card-top">
+            <span class="card-badge teal">Step 10 • 60s</span>
+            <span class="card-meta">Parasympathetic Reset</span>
+          </div>
+          <h4 class="card-title">10. Ragdoll Hang & Segmental Roll-up</h4>
+          <p class="card-body">Discharges all remaining central nervous system tension through gravity, followed by mindful vertical spinal stacking.</p>
+          <ul class="steps-list">
+            <li>Generously bent knees, clasp opposite elbows, sway like water.</li>
+            <li>Take 15 seconds to roll up slowly, vertebrae by vertebrae.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         TAB 3: GENTLE CHAIR ROUTINE (FOR DESK WORKERS)
+         ========================================================================= -->
+    <section id="tab-chair" class="tab-content">
+      <div class="welcome-hero" style="border-color: rgba(6, 182, 212, 0.35); background: linear-gradient(135deg, rgba(6, 182, 212, 0.12) 0%, rgba(15, 23, 42, 0.7) 100%);">
+        <div class="hero-pill" style="background: rgba(6, 182, 212, 0.2); color: var(--cyan); border-color: var(--cyan);">Office & Limited Mobility Protocol</div>
+        <h2>Gentle Chair Routine: Desk Decompression in 6 Minutes</h2>
+        <p>
+          Designed for busy workdays when you cannot get onto the floor or change clothes. You can perform these 6 gentle mobilizations directly in your office chair, without sweating, to counter 8+ hours of seated compression.
+        </p>
+        <button class="cta-upgrade-btn" style="background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%); max-width: 260px;" onclick="MRMobility.setRoutine('chair'); MRMobility.switchTab('daily');">
+          Load in Interactive Timer →
+        </button>
+      </div>
+
+      <div class="cards-grid">
+        <div class="content-card">
+          <div class="card-top">
+            <span class="card-badge teal">Chair 01 • 60s</span>
+            <span class="card-meta">Spinal Lubrication</span>
+          </div>
+          <h4 class="card-title">Seated Pelvic Clock & Cat-Cow</h4>
+          <p class="card-body">Sit tall on front edge of chair. Tilt pelvis forward to arch lower back and expand chest, then tuck tailbone back and exhale to round.</p>
+          <div class="tip-box">Cues: Keep movements rhythmic. Mobilizes the lumbar discs without leaving your desk.</div>
+        </div>
+
+        <div class="content-card">
+          <div class="card-top">
+            <span class="card-badge teal">Chair 02 • 60s</span>
+            <span class="card-meta">Sciatica Corridor</span>
+          </div>
+          <h4 class="card-title">Seated Figure-4 Piriformis Stretch</h4>
+          <p class="card-body">Cross right ankle over left knee. Keep spine straight and hinge forward from hips. Hold 30 seconds, then switch to left ankle.</p>
+          <div class="tip-box">Cues: Releases deep glute tension that pinches the sciatic nerve during long chair sessions.</div>
+        </div>
+
+        <div class="content-card">
+          <div class="card-top">
+            <span class="card-badge teal">Chair 03 • 60s</span>
+            <span class="card-meta">Thoracic Spiral</span>
+          </div>
+          <h4 class="card-title">Seated Torso Spiral & Open Reach</h4>
+          <p class="card-body">Right hand to outer left knee, left hand holding the backrest. Inhale tall, exhale gently twisting from the ribcage. Switch at 30 seconds.</p>
+          <div class="tip-box">Cues: Do not force neck rotation; let the movement originate from the chest and mid-back.</div>
+        </div>
+
+        <div class="content-card">
+          <div class="card-top">
+            <span class="card-badge teal">Chair 04 • 60s</span>
+            <span class="card-meta">Nerve Flossing</span>
+          </div>
+          <h4 class="card-title">Seated Hamstring Glide & Toe Flex</h4>
+          <p class="card-body">Extend right leg with heel on floor. Point toes forward, then flex toes back toward nose while nodding chin. Switch legs at 30s.</p>
+          <div class="tip-box">Cues: Flosses the sciatic nerve sheath, reducing tightness behind knees and thighs.</div>
+        </div>
+
+        <div class="content-card">
+          <div class="card-top">
+            <span class="card-badge teal">Chair 05 • 60s</span>
+            <span class="card-meta">Anti-Hunch</span>
+          </div>
+          <h4 class="card-title">Desk Pec Opener & Shoulder Unwind</h4>
+          <p class="card-body">Interlace fingers behind lower back or grip armrests. Draw shoulder blades downward, rolling shoulders back to expand chest.</p>
+          <div class="tip-box">Cues: Counters keyboard hunching and rounded forward shoulder syndrome immediately.</div>
+        </div>
+
+        <div class="content-card">
+          <div class="card-top">
+            <span class="card-badge teal">Chair 06 • 60s</span>
+            <span class="card-meta">Cervical Freedom</span>
+          </div>
+          <h4 class="card-title">Chin Tuck & Suboccipital Release</h4>
+          <p class="card-body">Draw chin straight back as if making a subtle double chin. Hold 3 seconds, release smoothly. Gently tilt right ear to right shoulder.</p>
+          <div class="tip-box">Cues: Instantly relieves base-of-skull tension headaches and computer neck fatigue.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         TAB 4: LOWER BACK & SPINE DECOMPRESSION PROTOCOL
+         ========================================================================= -->
+    <section id="tab-spine" class="tab-content">
+      <div class="welcome-hero" style="border-color: rgba(16, 185, 129, 0.4); background: linear-gradient(135deg, rgba(16, 185, 129, 0.14) 0%, rgba(15, 23, 42, 0.7) 100%);">
+        <div class="hero-pill">Lumbar Relief & Disc Pressure Unload</div>
+        <h2>Lower Back & Spine Decompression Protocol</h2>
+        <p>
+          When lower back tightness flares up, aggressive stretching makes it worse. This protocol uses <strong>decompressive traction and gentle stabilization</strong> to open facet joints, deactivate spasming lumbar muscles, and create space between vertebrae.
+        </p>
+        <button class="cta-upgrade-btn" style="background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%); color:#080c14; max-width: 260px;" onclick="MRMobility.setRoutine('spine'); MRMobility.switchTab('daily');">
+          Load in Interactive Timer →
+        </button>
+      </div>
+
+      <div class="cards-grid">
+        <div class="content-card">
+          <div class="card-top">
+            <span class="card-badge teal">Spine 01 • 75s</span>
+            <span class="card-meta">Sacral Reset</span>
+          </div>
+          <h4 class="card-title">Supine Pelvic Tilts & Flattening</h4>
+          <p class="card-body">Lie on back with knees bent, feet flat. Exhale slowly as you flatten your lower back into the mat by tucking your tailbone. Hold 5s, release to neutral, and repeat.</p>
+          <div class="tip-box">Benefit: Activates the transverse abdominis "corset" muscle to decompress tight lumbar vertebrae.</div>
+        </div>
+
+        <div class="content-card">
+          <div class="card-top">
+            <span class="card-badge teal">Spine 02 • 75s</span>
+            <span class="card-meta">Facet Traction</span>
+          </div>
+          <h4 class="card-title">Extended Child's Pose with Lateral Walk</h4>
+          <p class="card-body">Knees wide, big toes touching. Sink hips onto heels, crawl hands forward. Walk both hands 45 degrees to the right to stretch left flank, then walk across to left.</p>
+          <div class="tip-box">Benefit: Gently creates negative pressure in the lumbar intervertebral discs, drawing hydration inside.</div>
+        </div>
+
+        <div class="content-card">
+          <div class="card-top">
+            <span class="card-badge teal">Spine 03 • 75s</span>
+            <span class="card-meta">Extensor Relief</span>
+          </div>
+          <h4 class="card-title">Glute Bridge Hold with Diaphragmatic Breath</h4>
+          <p class="card-body">Lift hips into a low, comfortable bridge. Squeeze glutes firmly at top to neurologically inhibit overactive hip flexors. Breathe deeply into your lower belly.</p>
+          <div class="tip-box">Benefit: Reciprocal inhibition: firing your glutes commands your tight lower back to relax.</div>
+        </div>
+
+        <div class="content-card">
+          <div class="card-top">
+            <span class="card-badge teal">Spine 04 • 75s</span>
+            <span class="card-meta">Gentle Flexion</span>
+          </div>
+          <h4 class="card-title">Single & Double Knee-to-Chest Hug</h4>
+          <p class="card-body">Draw right knee gently toward chest, holding around shin. Breathe into lower back for 35s. Switch to left for 35s, then finish hugging both knees together gently.</p>
+          <div class="tip-box">Benefit: Safely elongates the thoracolumbar fascia and unloads compressive tension.</div>
+        </div>
+
+        <div class="content-card">
+          <div class="card-top">
+            <span class="card-badge teal">Spine 05 • 75s</span>
+            <span class="card-meta">Rotational Release</span>
+          </div>
+          <h4 class="card-title">Supported Gentle Supine Twist</h4>
+          <p class="card-body">Lie on back, knees bent. Gently drop both knees to the right side while keeping your left shoulder on the mat. Place a cushion under knees if they don't touch the floor.</p>
+          <div class="tip-box">Benefit: Restores rotational glide in the lower spine while releasing deep piriformis tightness.</div>
+        </div>
+
+        <div class="content-card" style="background: rgba(16, 185, 129, 0.05); border-color: var(--border-accent);">
+          <div class="card-top">
+            <span class="card-badge teal">Sleep Tip</span>
+            <span class="card-meta">Night Decompression</span>
+          </div>
+          <h4 class="card-title">Zero-Gravity Sleep Positioning</h4>
+          <p class="card-body">When sleeping on your back, place a medium pillow under your knees. When sleeping on your side, place a pillow between your knees. This keeps your pelvis neutral and stops morning stiffness before it starts.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         TAB 5: 21-DAY INTERACTIVE HABIT & PROGRESS TRACKER
+         ========================================================================= -->
+    <section id="tab-tracker" class="tab-content">
+      <div class="tracker-card">
+        <div class="section-headline" style="margin-bottom: 16px;">
+          <h3>21-Day Habit & Progress Tracker</h3>
+          <p>Click on any day to mark it complete. Your journey is saved automatically in your browser.</p>
+        </div>
+
+        <!-- 3-Column Metrics Shelf -->
+        <div class="tracker-stats-grid">
+          <div class="tracker-stat-box">
+            <span class="tracker-stat-num" id="statCompletedCount">0/21</span>
+            <span class="tracker-stat-sub">Days Complete</span>
+          </div>
+          <div class="tracker-stat-box">
+            <span class="tracker-stat-num" id="statStreakDays" style="color: var(--gold);">0d</span>
+            <span class="tracker-stat-sub">Active Streak</span>
+          </div>
+          <div class="tracker-stat-box">
+            <span class="tracker-stat-num" id="statTotalMinutes" style="color: var(--cyan);">0m</span>
+            <span class="tracker-stat-sub">Time Invested</span>
+          </div>
+        </div>
+
+        <!-- Progress Track -->
+        <div class="tracker-progress-header">
+          <span>Overall Protocol Completion</span>
+          <span id="statPercentNumber" style="color: var(--emerald-light);">0%</span>
+        </div>
+        <div class="tracker-progress-track">
+          <div class="tracker-progress-fill" id="trackerProgressBar"></div>
+        </div>
+
+        <!-- Dynamic Days Grid (Rendered by JS) -->
+        <div id="trackerDaysContainer">
+          <!-- Populated by app.js -->
+        </div>
+
+        <!-- Milestone Badges Shelf -->
+        <div class="milestones-shelf">
+          <div class="milestone-badge" id="milestoneDay1">
+            <span class="milestone-icon">🌱</span>
+            <div>
+              <span class="milestone-name">Day 1</span>
+              <span class="milestone-desc">First Step</span>
+            </div>
+          </div>
+          <div class="milestone-badge" id="milestoneDay3">
+            <span class="milestone-icon">🔥</span>
+            <div>
+              <span class="milestone-name">Day 3</span>
+              <span class="milestone-desc">Habit Spark</span>
+            </div>
+          </div>
+          <div class="milestone-badge" id="milestoneDay7">
+            <span class="milestone-icon">🌟</span>
+            <div>
+              <span class="milestone-name">Day 7</span>
+              <span class="milestone-desc">Week 1 Master</span>
+            </div>
+          </div>
+          <div class="milestone-badge" id="milestoneDay14">
+            <span class="milestone-icon">⚡</span>
+            <div>
+              <span class="milestone-name">Day 14</span>
+              <span class="milestone-desc">Deep Mobility</span>
+            </div>
+          </div>
+          <div class="milestone-badge" id="milestoneDay21">
+            <span class="milestone-icon">👑</span>
+            <div>
+              <span class="milestone-name">Day 21</span>
+              <span class="milestone-desc">Agility Grad</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Daily Reflection Notes -->
+        <div class="daily-notes-box">
+          <label for="userReflectionNotes" style="font-size: 0.82rem; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 6px;">
+            Daily Reflection & Stiffness Journal (Auto-Saved)
+          </label>
+          <textarea id="userReflectionNotes" placeholder="Example: Day 4: Morning back stiffness dropped from 7/10 to 3/10. Able to touch toes easily today without pulling..."></textarea>
+          <div style="display:flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+            <span style="font-size: 0.72rem; color: var(--text-muted);">Saved locally to your device</span>
+            <button id="btnResetTracker" class="badge-btn" style="color: var(--rose);">Reset Tracker</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         TAB 6: SURPRISE BONUS: FREE KNEES & DEEP HIP OPENER PROTOCOL
+         ========================================================================= -->
+    <section id="tab-bonus" class="tab-content">
+      <div class="bonus-banner-highlight">
+        <div class="bonus-pill">Surprise Bonus Unlocked • $47 Value (Free)</div>
+        <h3>Free Knees & Deep Hip Opener Protocol</h3>
+        <p>
+          Most people assume knee pain is a knee problem. In 85% of cases, the knee is completely healthy: it is simply an innocent hinge joint trapped between a stiff hip and a locked ankle. When your hip loses rotation, your knee is forced to twist. This protocol unlocks the deep hip capsules to immediately offload knee stress.
+        </p>
+        <button class="cta-upgrade-btn" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color:#080c14; max-width: 270px; font-weight: 800;" onclick="MRMobility.setRoutine('bonus'); MRMobility.switchTab('daily');">
+          Launch Bonus in Timer (8m) →
+        </button>
+      </div>
+
+      <div class="cards-grid">
+        <div class="content-card">
+          <div class="card-top">
+            <span class="card-badge gold">Bonus 01 • 90s</span>
+            <span class="card-meta">Hip Capsules</span>
+          </div>
+          <h4 class="card-title">90/90 Shin Box Transitions</h4>
+          <p class="card-body">Sit on floor with both legs at 90-degree angles. Hinge forward with a flat chest over the front shin, then pivot on heels smoothly to transition to the other side.</p>
+          <div class="tip-box">Opens both internal and external hip rotators simultaneously, freeing torque off the patellar tendon.</div>
+        </div>
+
+        <div class="content-card">
+          <div class="card-top">
+            <span class="card-badge gold">Bonus 02 • 90s</span>
+            <span class="card-meta">Patellar Unload</span>
+          </div>
+          <h4 class="card-title">Supported Couch Stretch (Wall Quad)</h4>
+          <p class="card-body">Place back knee near wall or sofa with shin vertical. Step opposite foot into lunge. Tuck tailbone under to feel a deep stretch in the front of the thigh.</p>
+          <div class="tip-box">Lengthens the rectus femoris muscle that pulls directly on your kneecap during walking and stairs.</div>
+        </div>
+
+        <div class="content-card">
+          <div class="card-top">
+            <span class="card-badge gold">Bonus 03 • 90s</span>
+            <span class="card-meta">Knee Tracking</span>
+          </div>
+          <h4 class="card-title">Tibial Rotation & Ankle Rockers</h4>
+          <p class="card-body">Half-kneeling position. Place hands on shin bone. Gently rotate foot inward and outward, then rock knee forward past toes keeping heel glued to floor.</p>
+          <div class="tip-box">Restores proper rotational tracking in the lower leg and ankle, eliminating knee wobbling.</div>
+        </div>
+
+        <div class="content-card">
+          <div class="card-top">
+            <span class="card-badge gold">Bonus 04 • 90s</span>
+            <span class="card-meta">Adductor Freedom</span>
+          </div>
+          <h4 class="card-title">Assisted Frog Stretch with Deep Exhale</h4>
+          <p class="card-body">Spread knees wide on a soft mat, inside of feet flat against floor. Rest on forearms. Gently glide hips backward until a safe groin stretch is felt.</p>
+          <div class="tip-box">Releases chronically shortened inner thigh adductors that pull knees inward (valgus collapse).</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         TAB 7: PREMIUM LOCKED MODULES (UPSELL / LTV ENGINE)
+         ========================================================================= -->
+    <section id="tab-upsell" class="tab-content">
+      <div class="section-headline">
+        <h3 style="color: var(--purple);">MR Mobility Elite Upgrades & VIP Club</h3>
+        <p>Take your mobility and physical freedom to the next level with our advanced masterclasses.</p>
+      </div>
+
+      <!-- Locked Card 1 -->
+      <div class="locked-card" id="cardLockedAgility">
+        <div class="lock-badge-corner">🔒</div>
+        <div class="card-badge purple" style="display: inline-block; margin-bottom: 8px;">Premium Tier • Upgrade Available</div>
+        <div class="locked-card-title">Full Body Agility Academy 🔒</div>
+        <div class="locked-card-desc">
+          High-level athletic mobility, fascial elasticity flows, rotational power, and lifelong joint longevity protocols for active bodies. Over 40+ HD specialized video flows.
+        </div>
+        <button class="btn-unlock-tier">
+          <span>Unlock Premium Tier (65% OFF)</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+      </div>
+
+      <!-- Locked Card 2 -->
+      <div class="locked-card" id="cardLockedCoaching">
+        <div class="lock-badge-corner">🔒</div>
+        <div class="card-badge purple" style="display: inline-block; margin-bottom: 8px;">VIP Tier • Private Access</div>
+        <div class="locked-card-title">Live Coaching Club & Video Posture Audit 🔒</div>
+        <div class="locked-card-desc">
+          Get your posture personally reviewed by MR Solutions physical therapy specialists. Includes bi-weekly live Zoom masterclasses, private WhatsApp VIP community, and direct trainer access.
+        </div>
+        <button class="btn-unlock-tier">
+          <span>Join VIP Coaching Club</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+      </div>
+
+      <!-- Comparison Matrix -->
+      <div class="content-card" style="margin-top: 24px; border-color: rgba(139, 92, 246, 0.25);">
+        <h4 style="font-size: 1.05rem; font-weight: 700; margin-bottom: 12px; color: #fff;">Your Current Access: White Tier</h4>
+        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 14px;">
+          You currently have lifetime access to the foundational White Tier, including the Daily 10-Min Routine, Gentle Chair Protocol, Spine Decompression, 21-Day Tracker, and the Surprise Knee & Hip Bonus. Upgrades are optional but unlock direct coaching and advanced athletic flows.
+        </p>
+        <button class="badge-btn active" onclick="MRMobility.openUpsellModal('agility')">View Upgrade Special Deals</button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =========================================================================
+       MOBILE BOTTOM NAVIGATION BAR
+       ========================================================================= -->
+  <nav class="mobile-bottom-bar">
+    <button class="bottom-nav-item active" data-tab="welcome">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+      </svg>
+      <span>Start</span>
+    </button>
+    
+    <button class="bottom-nav-item" data-tab="daily">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"></circle>
+        <polyline points="12 6 12 12 16 14"></polyline>
+      </svg>
+      <span>Routine</span>
+    </button>
+
+    <button class="bottom-nav-item" data-tab="chair">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="4" y="4" width="16" height="16" rx="2"></rect>
+        <line x1="8" y1="12" x2="16" y2="12"></line>
+      </svg>
+      <span>Chair</span>
+    </button>
+
+    <button class="bottom-nav-item" data-tab="tracker">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+      </svg>
+      <span>Tracker</span>
+    </button>
+
+    <button class="bottom-nav-item bonus-tab" data-tab="bonus">
+      <span class="badge-dot"></span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+      </svg>
+      <span>Bonus</span>
+    </button>
+
+    <button class="bottom-nav-item locked-tab" data-tab="upsell">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+      </svg>
+      <span>VIP 🔒</span>
+    </button>
+  </nav>
+
+  <!-- =========================================================================
+       MODAL 1: UPGRADE / UPSELL MODAL (LTV ENGINE)
+       ========================================================================= -->
+  <div id="upsellModal" class="modal-overlay">
+    <div class="modal-dialog">
+      <button id="btnCloseUpsell" class="modal-close-btn" title="Close">&times;</button>
+      
+      <span id="upsellBadge" class="modal-badge purple">PREMIUM TIER • FULL BODY AGILITY</span>
+      <h2 id="upsellTitle" class="modal-title">Full Body Agility Academy</h2>
+      <p id="upsellSubtitle" class="modal-subtitle">
+        Unlock high-level athletic mobility, fascial elasticity flows, rotational power, and lifelong joint longevity.
+      </p>
+
+      <div class="pricing-deal-box">
+        <div>
+          <span id="upsellStrike" class="price-strike">$97</span>
+          <span id="upsellActual" class="price-actual">$27</span>
+          <span id="upsellTag" class="price-discount-tag">72% OFF</span>
+        </div>
+        <div class="deal-countdown">⏳ Special Existing-Member Loyalty Pricing</div>
+      </div>
+
+      <ul id="upsellPerksList" class="perks-list">
+        <!-- Filled dynamically by app.js -->
+      </ul>
+
+      <a id="btnClaimUpsell" href="https://gumroad.com/l/mr-agility-academy?wanted=true" target="_blank" rel="noopener noreferrer" class="cta-upgrade-btn">
+        Claim My VIP Upgrade Now →
+      </a>
+
+      <div class="modal-guarantee">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+        <span>30-Day 100% Iron-Clad Satisfaction Guarantee</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL 2: WELCOME / ONBOARDING GUIDE MODAL
+       ========================================================================= -->
+  <div id="welcomeModal" class="modal-overlay">
+    <div class="modal-dialog">
+      <button id="btnCloseWelcome" class="modal-close-btn" title="Close">&times;</button>
+      
+      <span class="modal-badge emerald">Quick Onboarding Guide</span>
+      <h2 class="modal-title">Welcome to MR Mobility Studio!</h2>
+      <p class="modal-subtitle">
+        Your digital movement sanctuary designed to eliminate chronic stiffness and restore spinal freedom in just 10 minutes a day.
+      </p>
+
+      <ul class="perks-list" style="margin-bottom: 20px;">
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <div>
+            <strong>Interactive Timer:</strong>
+            <span style="display:block; font-size: 0.8rem; color: var(--text-secondary);">Features automated chimes and posture cues for smooth 10-minute flows.</span>
+          </div>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <div>
+            <strong>21-Day Habit Tracker:</strong>
+            <span style="display:block; font-size: 0.8rem; color: var(--text-secondary);">Saves your progress automatically in your browser—no login required.</span>
+          </div>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <div>
+            <strong>Gentle Chair Protocol:</strong>
+            <span style="display:block; font-size: 0.8rem; color: var(--text-secondary);">Decompress your spine right at your desk without breaking a sweat.</span>
+          </div>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <div>
+            <strong>Surprise Bonus:</strong>
+            <span style="display:block; font-size: 0.8rem; color: var(--text-secondary);">Unlocks free knee relief through deep hip socket mobility.</span>
+          </div>
+        </li>
+      </ul>
+
+      <button class="cta-upgrade-btn" style="background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%); color: #080c14;" onclick="MRMobility.switchTab('daily'); document.getElementById('welcomeModal').classList.remove('active'); document.body.style.overflow='';">
+        Start My First 10-Minute Routine →
+      </button>
+    </div>
+  </div>
+
+  <!-- Main JavaScript Engine -->
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "name": "MR Mobility Studio",
+  "short_name": "MR Mobility",
+  "description": "Gentle Mobility & Daily Spinal Decompression Protocol by MR Solutions",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#080c14",
+  "theme_color": "#080c14",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "./icons/icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["health", "fitness", "lifestyle"]
+}
